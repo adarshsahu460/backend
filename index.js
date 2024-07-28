@@ -8,8 +8,7 @@ import devRouter from './routes/dev.js'
 const app = express()
 
 app.use(cors({
-    origin:['http://152.59.13.210',
-    ]
+    origin:['https://d1j1rq5bsho0t3.cloudfront.net',`http://152.59.13.210`,'http://172.20.10.2'],
     credentials:true
 }));
 app.use(express.json())
