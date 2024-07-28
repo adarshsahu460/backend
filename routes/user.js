@@ -17,7 +17,7 @@ const prisma = PrismaSingleton.getInstance()
 const app = express.Router()
 app.use(cookieParser())
 app.use(cors({
-    origin:'http://152.59.13.210:5173',
+    // origin:'http://152.59.13.210:5173',
     credentials:true
 }));
 
