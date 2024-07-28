@@ -40,7 +40,7 @@ app.use(cookieParser())
 app.use(urlencoded({extended : false}));
 
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:'http://152.59.13.210:5173',
     credentials:true
 }));
 
