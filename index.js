@@ -8,7 +8,8 @@ import devRouter from './routes/dev.js'
 const app = express()
 
 app.use(cors({
-    origin:'http://152.59.13.210:5173',
+    origin:['http://152.59.13.210',
+    ]
     credentials:true
 }));
 app.use(express.json())
