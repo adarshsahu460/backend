@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  mobile    String
+  email     String   @unique
+  password  String
+  menuItems MenuItems[]
+  adminOTP  AdminOTP[]
+  verified  Boolean  @default(false)
+}
+
+model MenuItems{
+  id          Int      @id @default(autoincrement())
+  name        String   
+  price       Int
+  description String    @default("a")
+  image       String    @default("a")
+  category    String    @default("a")
+  adminId     Int       // foreign key
+  @@unique([adminId, name])
+  admin       Admin     @relation(fields: [adminId], references: [id])
+  orders      Order[]
+  key         String?
+} 
+
+model Order{
+  id        Int      @id @default(autoincrement())
+  userId    Int      // foreign key
+  itemId    Int      // foreign key
+  quantity  Int
+  user      User     @relation(fields: [userId], references: [id])
+  item      MenuItems @relation(fields: [itemId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model User{
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  mobile    String   @unique
+  balance   Int      @default(0)
+  otps      UserOTP[]
+  orders    Order[]
+}
+
+
+model UserOTP{
+  id        Int      @id @default(autoincrement())
+  otp       String   
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+
+model AdminOTP{
+  id        Int      @id @default(autoincrement())
+  otp       String   
+  adminID   Int      @unique
+  admin     Admin    @relation(fields: [adminID], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Profit{
+  id      Int      @id @default(autoincrement())
+  profit  Int      
+  date    DateTime @default(now())  @unique
+}
+
+model Gallery{
+  id Int @id @default(autoincrement())
+  url String
+  tag String?
+  createdAt DateTime @default(now())
+}
+
+
